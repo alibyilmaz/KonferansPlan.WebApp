@@ -13,13 +13,15 @@ namespace Backend.Data
         public override async Task LoadDataAsync(Stream fileStream, ApplicationDbContext db)
         {
             var reader = new JsonTextReader(new StreamReader(fileStream));
+
             var speakerNames = new Dictionary<string, Speaker>();
             var tracks = new Dictionary<string, Track>();
 
             JArray doc = await JArray.LoadAsync(reader);
+
             foreach (JObject item in doc)
             {
-                var theseSpekaers = new List<Speaker>();
+                var theseSpeakers = new List<Speaker>();
                 foreach (var thisSpeakerName in item["speakerNames"])
                 {
                     if (!speakerNames.ContainsKey(thisSpeakerName.Value<string>()))
@@ -29,8 +31,9 @@ namespace Backend.Data
                         speakerNames.Add(thisSpeakerName.Value<string>(), thisSpeaker);
                         Console.WriteLine(thisSpeakerName.Value<string>());
                     }
-                    theseSpekaers.Add(speakerNames[thisSpeakerName.Value<string>()]);
+                    theseSpeakers.Add(speakerNames[thisSpeakerName.Value<string>()]);
                 }
+
                 var theseTracks = new List<Track>();
                 foreach (var thisTrackName in item["trackNames"])
                 {
@@ -42,16 +45,18 @@ namespace Backend.Data
                     }
                     theseTracks.Add(tracks[thisTrackName.Value<string>()]);
                 }
+
                 var session = new Session
                 {
                     Title = item["title"].Value<string>(),
                     StartTime = item["startTime"].Value<DateTime>(),
                     EndTime = item["endTime"].Value<DateTime>(),
                     Track = theseTracks[0],
-                    Abstract=item["abstract"].Value<string>()
+                    Abstract = item["abstract"].Value<string>()
                 };
+
                 session.SessionSpeakers = new List<SessionSpeaker>();
-                foreach (var sp in theseSpekaers)
+                foreach (var sp in theseSpeakers)
                 {
                     session.SessionSpeakers.Add(new SessionSpeaker
                     {
@@ -59,9 +64,9 @@ namespace Backend.Data
                         Speaker = sp
                     });
                 }
+
                 db.Sessions.Add(session);
             }
-          
         }
     }
 }

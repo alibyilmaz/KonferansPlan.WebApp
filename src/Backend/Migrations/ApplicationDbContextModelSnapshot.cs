@@ -101,13 +101,12 @@ namespace Backend.Migrations
                     b.Property<int>("SessionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SpeakerrId")
-                        .HasColumnType("INTEGER");
+                  
 
                     b.Property<int?>("SpeakerId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("SessionId", "SpeakerrId");
+                    b.HasKey("SessionId");
 
                     b.HasIndex("SpeakerId");
 
