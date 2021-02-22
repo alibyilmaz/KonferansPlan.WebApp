@@ -1,4 +1,4 @@
-using Backend.Models;
+using Backend.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,10 +42,12 @@ namespace Backend
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Konferans Plan API", Version = "v1" });
+                options.DescribeAllParametersInCamelCase();
                 //Set the comments path for the Swagger Json and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
+                
 
             });
             

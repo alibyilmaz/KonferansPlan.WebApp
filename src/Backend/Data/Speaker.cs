@@ -9,6 +9,6 @@ namespace Backend.Data
 {
     public class Speaker : KonferansDTO.Speaker
     {
-
+        public virtual ICollection<SessionSpeaker> SessionSpeakers { get; set; } = new List<SessionSpeaker>();
     }
 }
