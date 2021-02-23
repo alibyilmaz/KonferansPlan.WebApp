@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace Frontend.Services
@@ -41,7 +40,7 @@ namespace Frontend.Services
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ParticipantResponse>();
+            return await response.Content.ReadAsAsync<ParticipantResponse>();
         }
 
 
@@ -53,7 +52,7 @@ namespace Frontend.Services
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<SessionResponse>();
+            return await response.Content.ReadAsAsync<SessionResponse>();
         }
         public async Task<List<SessionResponse>> GetSessionsAsync()
         {
@@ -61,7 +60,7 @@ namespace Frontend.Services
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<List<SessionResponse>>();
+            return await response.Content.ReadAsAsync<List<SessionResponse>>();
         }
         public async Task DeleteSessionAsync(int id)
         {
@@ -85,7 +84,7 @@ namespace Frontend.Services
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<SpeakerResponse>();
+            return await response.Content.ReadAsAsync<SpeakerResponse>();
         }
 
         public async Task<List<SpeakerResponse>> GetSpeakersAsync()
@@ -94,7 +93,7 @@ namespace Frontend.Services
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<List<SpeakerResponse>>();
+            return await response.Content.ReadAsAsync<List<SpeakerResponse>>();
         }
 
         public async Task PutSessionAsync(Session session)
@@ -107,6 +106,21 @@ namespace Frontend.Services
         public Task GetSessionAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<SearchResult>> SearchAsync(string query)
+        {
+            var term = new SearchTerm 
+            { 
+                Query = query 
+            };
+
+            var response = await _httpClient.PostAsJsonAsync($"/api/search", term);
+
+            response.EnsureSuccessStatusCode();
+
+          return await response.Content.ReadAsAsync<List<SearchResult>>();
+          
         }
     }
 }

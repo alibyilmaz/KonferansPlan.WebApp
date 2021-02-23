@@ -18,5 +18,7 @@ namespace Frontend.Services
         Task<ParticipantResponse> GetParticipantAsync(string name);
         Task DeleteSessionAsync(int id);
         Task GetSessionAsync();
+
+        Task<List<SearchResult>> SearchAsync(string query);
     }
 }

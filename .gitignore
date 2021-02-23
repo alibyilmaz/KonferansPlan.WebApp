@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/src/Backend/conference.db-shm
+/src/Backend/conference.db-wal
