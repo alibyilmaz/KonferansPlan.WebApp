@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static Frontend.Services.AdminService;
 
 namespace Frontend
 {
@@ -24,10 +25,26 @@ namespace Frontend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Admin", "Admin");
+            });
             services.AddHttpClient<IApiClient, ApiClient>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["serviceUrl"]);
+            });
+
+            services.AddSingleton<IAdminService, AdminService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireAuthenticatedUser()
+                    .RequireIsAdminClaim();
+
+        
+                });
             });
         }
 
@@ -51,6 +68,7 @@ namespace Frontend
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

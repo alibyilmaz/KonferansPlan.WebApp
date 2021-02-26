@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Frontend.Services;
 using KonferansDTO;
@@ -24,8 +25,16 @@ namespace Frontend.Pages
         public IEnumerable<IGrouping<DateTimeOffset?, SessionResponse>> Sessions { get; set; }
         public IEnumerable<(int Offset, DayOfWeek? DayOfWeek)> DayOffSets { get; set; }
         public int CurrentDayOffSet { get; set; }
-        public async Task OnGet(int day=0)
+
+        public bool IsAdmin { get; set; }
+        [TempData]
+        public string Message { get; set; }
+
+        public bool ShowMessage => !string.IsNullOrEmpty(Message);
+        public async Task OnGetAsync(int day=0)
         {
+
+            IsAdmin = User.IsAdmin();
             CurrentDayOffSet = day;
 
             var sessions = await _apiClient.GetSessionsAsync();
@@ -44,6 +53,8 @@ namespace Frontend.Pages
                                     .OrderBy(s => s.TrackId)
                                     .GroupBy(s => s.StartTime)
                                     .OrderBy(g => g.Key);
+
+            
         }
     }
 }

@@ -61,6 +61,7 @@ namespace Backend
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseRouting();
 
             app.UseAuthorization();
