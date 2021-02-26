@@ -25,10 +25,10 @@ namespace Frontend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AuthorizeFolder("/Admin", "Admin");
-            });
+            //services.AddRazorPages(options =>
+            //{
+            //    options.Conventions.AuthorizeFolder("/Admin", "Admin");
+            //});
             services.AddHttpClient<IApiClient, ApiClient>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["serviceUrl"]);

@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<StartupObject>Backend.Program</StartupObject>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Migrations\20210221210306_Refactor-Part2.cs" />
