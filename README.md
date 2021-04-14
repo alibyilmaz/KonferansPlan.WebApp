@@ -1,6 +1,6 @@
 # ConfPlanner
 
-conferans planner web app from csharpfritz who streamer of .NET Foundation
+
 asp.net, mvc, efcore, razor pages, sqlite
 
 
